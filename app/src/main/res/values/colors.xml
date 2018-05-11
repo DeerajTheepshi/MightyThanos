@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2d2d2d</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="buttoncolor">#455A64</color>
+    <color name="MindStone">#FFD600</color>
+    <color name="SoulStone">#FF5722</color>
+    <color name="RealityStone">#D32F2F</color>
+    <color name="TimeStone">#2E7D32</color>
+    <color name="SpaceStone">#005ebc</color>
+    <color name="PowerStone">#400bba</color>
+    <color name="initial"></color>
+</resources>
