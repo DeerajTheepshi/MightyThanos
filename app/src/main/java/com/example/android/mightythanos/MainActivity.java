@@ -3,10 +3,12 @@ package com.example.android.mightythanos;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.os.PersistableBundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -25,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
     String[] stonesList = new String[]{"Time Stone","Space Stone","Mind Stone","Soul Stone","Power Stone","Reality Stone"};
     int[] colorList = new int[]{R.color.TimeStone,R.color.SpaceStone,R.color.MindStone,R.color.SoulStone,R.color.PowerStone,R.color.RealityStone};
     TextView[] viewList;
-    List<Integer> stoneIndex = randomGen();
+    List<Integer>  stoneIndex = randomGen();
     int status=0;
+    database handler = new database();
 
     TextView stoneStatus;
     TextView imageStatus;
@@ -37,13 +40,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         stoneStatus = (TextView) findViewById(R.id.textview1);
-        backgroundStatus= findViewById(R.id.home);
+
+        backgroundStatus = findViewById(R.id.home);
         imageStatus = (TextView) findViewById(R.id.color_change);
-        viewList = new TextView[]{(TextView) findViewById(R.id.t1),(TextView) findViewById(R.id.t2),(TextView) findViewById(R.id.t3),
-                (TextView) findViewById(R.id.t4),(TextView) findViewById(R.id.t5),(TextView) findViewById(R.id.t6)};
+        viewList = new TextView[]{(TextView) findViewById(R.id.t1), (TextView) findViewById(R.id.t2), (TextView) findViewById(R.id.t3),
+                (TextView) findViewById(R.id.t4), (TextView) findViewById(R.id.t5), (TextView) findViewById(R.id.t6)};
+        if (savedInstanceState != null) {
+
+            status = savedInstanceState.getInt("savedState");
+            int[] stoneIndexArr = savedInstanceState.getIntArray("savedArr");
+            Log.w("KAALA","IT IS NOT EMPTY "+status+" "+stoneIndexArr[1]);
+            for(int i=0;i<status;i++) {
+
+                int stoneNo = stoneIndexArr[i];
+                viewList[i].setVisibility(View.VISIBLE);
+                String stoneGot = stonesList[stoneNo];
+                viewList[i].setBackgroundColor(getResources().getColor(colorList[stoneNo]));
+                viewList[i].setText(stoneGot);
+           }
+        }
     }
 
+
+
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("savedState",status);
+       int[] indexArr = new int[6];
+        for(int i=0;i<6;i++){
+            indexArr[i]=stoneIndex.get(i);
+        }
+        outState.putIntArray("savedArr",indexArr);
+    }
+
+    /*@Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        }*/
+
+   @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
@@ -74,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             makeToast();
         }
         status=status+1;
+
 
     }
 
