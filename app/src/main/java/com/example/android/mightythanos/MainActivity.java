@@ -1,6 +1,7 @@
 package com.example.android.mightythanos;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.t4),(TextView) findViewById(R.id.t5),(TextView) findViewById(R.id.t6)};
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "Scroll down for inventory", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void stoneSelector(View view)
     {
@@ -70,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<6;i++)
             viewList[i].setVisibility(View.INVISIBLE);
         imageStatus.setBackground(getResources().getDrawable(R.drawable.infinitywar));
+        backgroundStatus.setBackground(getResources().getDrawable(R.drawable.infinitywar));
         stoneStatus.setText("Stone Yet To Be Possessed");
         status=0;
         stoneIndex = randomGen();
