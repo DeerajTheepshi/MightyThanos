@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     int status=0;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    Boolean isEmpty=true;
     TextView stoneStatus;
     TextView imageStatus;
     View backgroundStatus;
@@ -40,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
-        Log.w("KAALA","IT IS NOT EMPTY "+status+" "+stoneIndex);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         stoneStatus = (TextView) findViewById(R.id.textview1);                              //INITIALIZATION
         backgroundStatus = findViewById(R.id.home);
@@ -51,14 +52,15 @@ public class MainActivity extends AppCompatActivity {
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         prefEditor = pref.edit();
         Boolean check = pref.getBoolean("isEmpty",true);
-        restorePref(check);                                                                     //RESTORING DATA ONLY IF ITS NOT EMPTY
+        Log.w("KAALA","RESTORE INPUT "+check);
+        restorePref(check);                                                                         //RESTORING DATA ONLY IF ITS NOT EMPTY
 
     }
     @Override
     protected void onStop() {                                                                   //SAVE DATA BEFORE THE APP KILLS/CLOSES ITSELF
         super.onStop();
         savePref();
-        Log.w("KAALA","PREFERENCES ARE BEING SAVED");
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             makeToast();
         }
         status=status+1;
+        isEmpty = false;
     }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void reset(View view){                                                               //RESET AT ANYTIME
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         stoneStatus.setText("Stone Yet To Be Possessed");
         status=0;
         stoneIndex = randomGen();
+        Log.w("KAALA","DATA HAS BEEN RESET");
     }
     public List randomGen(){                                                                    //GENERATE A RANDOM LIST
         List<Integer> stoneIndex = Arrays.asList(array);
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         if(!empty) {
             status = pref.getInt("savedState", 0);
             for (int i = 0; i < 6; i++) {
-                stoneIndex.set(i, pref.getInt("savedIndex[" + String.valueOf(i) + "]", 0));
+                stoneIndex.set(i, pref.getInt("savedIndex[" + String.valueOf(i) + "]", stoneIndex.get(i)));
             }
             for (int i = 0; i < status; i++) {
                 if (i < 6) {
@@ -138,8 +142,10 @@ public class MainActivity extends AppCompatActivity {
                 backgroundStatus.setBackground(getResources().getDrawable(R.drawable.snap));
                 imageStatus.setBackground(getResources().getDrawable(R.drawable.snap));
                 stoneStatus.setText("Have All Stones,Now SNAP!!");
-            } else
+            }
+            if(status<5 && status>0)
                 imageStatus.setBackgroundColor(getResources().getColor(colorList[stoneIndex.get(status - 1)]));
+
         }
     }
 }
