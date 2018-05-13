@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
     View backgroundStatus;
 
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
+        Log.w("KAALA","IT IS NOT EMPTY "+status+" "+stoneIndex);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         stoneStatus = (TextView) findViewById(R.id.textview1);
@@ -49,20 +51,31 @@ public class MainActivity extends AppCompatActivity {
 
             status = savedInstanceState.getInt("savedState");
             int[] stoneIndexArr = savedInstanceState.getIntArray("savedArr");
-            Log.w("KAALA","IT IS NOT EMPTY "+status+" "+stoneIndexArr[1]);
-            for(int i=0;i<status;i++) {
+            for(int i=0;i<6;i++){
+                stoneIndex.set(i,stoneIndexArr[i]);
+            }
 
-                int stoneNo = stoneIndexArr[i];
-                viewList[i].setVisibility(View.VISIBLE);
-                String stoneGot = stonesList[stoneNo];
-                viewList[i].setBackgroundColor(getResources().getColor(colorList[stoneNo]));
-                viewList[i].setText(stoneGot);
+            for(int i=0;i<status;i++) {
+                if(i<6){
+                    int stoneNo = stoneIndexArr[i];
+                    viewList[i].setVisibility(View.VISIBLE);
+                    String stoneGot = stonesList[stoneNo];
+                    viewList[i].setBackgroundColor(getResources().getColor(colorList[stoneNo]));
+                    viewList[i].setText(stoneGot);
+                }
+                if(i>5)
+                    break;
            }
+           if(status>6){
+                backgroundStatus.setBackground(getResources().getDrawable(R.drawable.snap));
+                imageStatus.setBackground(getResources().getDrawable(R.drawable.snap));
+            }
+            else
+               imageStatus.setBackgroundColor(getResources().getColor(colorList[stoneIndexArr[status-1]]));
+
+
         }
     }
-
-
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -72,22 +85,7 @@ public class MainActivity extends AppCompatActivity {
             indexArr[i]=stoneIndex.get(i);
         }
         outState.putIntArray("savedArr",indexArr);
-    }
-
-    /*@Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        }*/
-
-   @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(this, "Scroll down for inventory", Toast.LENGTH_LONG).show();
-        }
-
+        Log.w("KAALA","IT IS NOT EMPTY "+status+" "+indexArr[0]+indexArr[1]+indexArr[2]+indexArr[3]+indexArr[4]+indexArr[5]);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -113,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void reset(View view){
         for(int i=0;i<6;i++)
