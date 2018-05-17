@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean isEmpty=true;
     TextView stoneStatus;
     TextView imageStatus;
-    View backgroundStatus;
+    ImageView backgroundStatus;
 
     @Override
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         stoneStatus = (TextView) findViewById(R.id.textview1);                              //INITIALIZATION
-        backgroundStatus = findViewById(R.id.home);
+        backgroundStatus = (ImageView) findViewById(R.id.home);
         imageStatus = (TextView) findViewById(R.id.color_change);
         viewList = new TextView[]{(TextView) findViewById(R.id.t1), (TextView) findViewById(R.id.t2), (TextView) findViewById(R.id.t3),
                 (TextView) findViewById(R.id.t4), (TextView) findViewById(R.id.t5), (TextView) findViewById(R.id.t6)};
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         if(status>5)
         {
             stoneStatus.setText("Have All Stones,Now SNAP!!");
-            backgroundStatus.setBackground(getResources().getDrawable(R.drawable.snap));
+            backgroundStatus.setImageResource(R.drawable.snap);
             imageStatus.setBackground(getResources().getDrawable(R.drawable.snap));
             makeToast();
         }
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<6;i++)
             viewList[i].setVisibility(View.INVISIBLE);
         imageStatus.setBackground(getResources().getDrawable(R.drawable.infinitywar));
-        backgroundStatus.setBackground(getResources().getDrawable(R.drawable.infinitywar));
+        backgroundStatus.setImageResource(R.drawable.infinitywar);
         stoneStatus.setText("Stone Yet To Be Possessed");
         status=0;
         stoneIndex = randomGen();
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             if (status > 6) {
-                backgroundStatus.setBackground(getResources().getDrawable(R.drawable.snap));
+                backgroundStatus.setImageResource(R.drawable.snap);
                 imageStatus.setBackground(getResources().getDrawable(R.drawable.snap));
                 stoneStatus.setText("Have All Stones,Now SNAP!!");
             }

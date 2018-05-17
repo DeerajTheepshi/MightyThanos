@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/infinitywar"
+    android:id="@id/home"
+    android:scaleType="centerCrop"/>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/home"
-    android:background="@drawable/infinitywar"
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
+
+
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/selectorCard"
@@ -188,3 +197,4 @@
 
 </RelativeLayout>
 
+</RelativeLayout>
